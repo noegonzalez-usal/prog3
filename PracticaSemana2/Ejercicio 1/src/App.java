@@ -1,4 +1,4 @@
-import es.usal20.progiii.tools.Esdia;
+import es.usal.progiii.tools.Esdia;
 public class App {
     public static void main(String[] args) throws Exception {
         int nac;
