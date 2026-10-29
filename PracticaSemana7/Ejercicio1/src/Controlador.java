@@ -30,6 +30,7 @@ public class Controlador {
             }
             case 'q':{
                 cerrar();
+                break;
             }
             default:{
                 System.out.printf("Valor introducido no válido\n");

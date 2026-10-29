@@ -9,7 +9,7 @@ public class Vista {
         System.out.printf("\n///////////////////////////\n1.- Leer los números\r\n" + //
                     "2.- Calcular la suma\r\n" + //
                     "3.- Mostrar el resultado\r\n" + //
-                    "q.- Salir\r\n///////////////////////////");
+                    "q.- Salir\r\n///////////////////////////\n");
         return sc.next().charAt(0);
     }
     
