@@ -1,7 +1,18 @@
+
 public class Coche{
     private String marca, modelo, matricula;
     private int año;
     private double precio;
+
+    @Override
+    public String toString(){
+        return "Marca: " + this.marca +
+               " | Modelo: " + this.modelo +
+               " | Matricula: " + this.matricula +
+               " | Año: " + this.año +
+               " | Precio: " + this.precio + " EUR\n";
+               
+    }
 
     public void setMarca(String s){
         this.marca=s;
