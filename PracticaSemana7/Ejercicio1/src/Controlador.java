@@ -1,7 +1,4 @@
-import java.util.Scanner;
-
 public class Controlador {
-    private Scanner sc = new Scanner(System.in);
     private Modelo controladorModelo;
     private Vista controladorVista; 
     private boolean ejecucion=true;
@@ -21,11 +18,11 @@ public class Controlador {
                 break;
             }
             case '2':{
-                controladorModelo.calcularSuma();
+                calcularSuma();
                 break;
             }
             case '3':{
-                controladorVista.imprimirSuma(controladorModelo.getSuma());
+                mostrarResultado();
                 break;
             }
             case 'q':{
@@ -33,23 +30,27 @@ public class Controlador {
                 break;
             }
             default:{
-                System.out.printf("Valor introducido no válido\n");
+                controladorVista.noOpcion();
             }
         };
         }while(this.ejecucion!=false);
         
     }
 
-    public char setOpcion(){
-        return sc.next().charAt(0);
-    }
-
     public void calcularSuma(){
-
+        if(controladorModelo.getNumeros()==null){
+            controladorVista.noNumeros();
+        }else{
+            controladorModelo.calcularSuma();
+        }
     }
 
     public void mostrarResultado(){
-
+        if(controladorModelo.getSuma()==null){
+            controladorVista.noSuma();
+        }else{
+        controladorVista.imprimirSuma(controladorModelo.getSuma());
+        }
     }
 
     public void cerrar(){
