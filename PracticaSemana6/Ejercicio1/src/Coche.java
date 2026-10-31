@@ -4,6 +4,18 @@ public class Coche{
     private int año;
     private double precio;
 
+    public Coche(String a, String b, String c, int d, double e){
+        this.marca=a;
+        this.modelo=b;
+        this.matricula=c;
+        this.año=d;
+        this.precio=e;
+    }
+
+    public Coche(){
+
+    }
+
     @Override
     public String toString(){
         return "Marca: " + this.marca +
@@ -52,6 +64,15 @@ public class Coche{
 
     public double getPrecio(){
         return this.precio;
+    }
+
+    public String getCocheString(){
+        return "Marca: " + this.marca +
+               " | Modelo: " + this.modelo +
+               " | Matricula: " + this.matricula +
+               " | Año: " + this.año +
+               " | Precio: " + this.precio + " EUR\n";
+    
     }
 
 }

@@ -1,7 +1,7 @@
 import es.usal.progiii.tools.Esdia;
 import java.util.Arrays;
 
-public class App {
+public class EjArrays {
     static int max=10;
     static Coche[] coches = new Coche[max];
     static int count;
@@ -31,7 +31,7 @@ public class App {
     }
 
     public static void agregarCoche(){
-        if(count<max-1){
+        if(count<max){
             coches[count]=new Coche();
             coches[count].setMarca(Esdia.readString("Introduce la marca del coche: "));
             coches[count].setModelo(Esdia.readString("Introduce el modelo del coche: "));
@@ -52,6 +52,7 @@ public class App {
                 }
                 encontrado = true;
                 count--;
+                System.out.printf("Coche eliminado correctamente");
                 break;
             }
         }
@@ -68,6 +69,7 @@ public class App {
                 coches[i].setMatricula(Esdia.readString("Introduce la matricula del coche: "));
                 coches[i].setAño(Esdia.readInt("Introduce el año del coche: "));
                 coches[i].setPrecio(Esdia.readDouble("Introduce el precio del coche: "));
+                encontrado=true;
             }
         }
         if(encontrado==false) System.out.printf("Matricula no encontrada");
