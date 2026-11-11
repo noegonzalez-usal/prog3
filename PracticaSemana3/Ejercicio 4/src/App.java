@@ -1,4 +1,9 @@
 import es.usal.progiii.tools.Esdia;
+
+// Con el uso de la funcion auxiliar "nombre()" en la clase person, con el depurador
+// se observa que los atributos se inicializan antes del construcor, lo cual tiene
+// sentido pues si no no hay donde guardar los valores dentro de la clase. 
+
 public class App {
     public static void main(String[] args) throws Exception {
         Person p1=new Person("Pedro",187,78 );
