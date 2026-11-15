@@ -1,54 +1,49 @@
 package Modelo;
-import Modelo.Partido;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+//import java.util.Iterator;
 
 public class Modelo {
 
     private ArrayList<Partido> partidos= new ArrayList<>();
-    private ArrayList<String> equipos = new ArrayList<>(Arrays.asList(
-            "Real Sociedad",
-            "Real Madrid",
-            "Cádiz CF",
-            "Athletic Club",
-            "Málaga CF",
-            "FC Barcelona",
-            "Getafe CF",
-            "Sporting de Gijón",
-            "Atlético de Madrid",
-            "Girona FC",
-            "Sevilla FC",
-            "Deportivo de La Coruña",
-            "Valencia CF",
-            "Granada CF",
-            "Villarreal CF",
-            "RCD Mallorca",
-            "Racing de Santander",
-            "Real Betis",
-            "CD Tenerife",
-            "Celta de Vigo",
-            "Levante UD",
-            "Osasuna",
-            "Real Valladolid",
-            "Rayo Vallecano",
-            "Elche CF",
-            "UD Almería",
-            "Espanyol",
-            "Deportivo Alavés",
-            "UD Las Palmas",
-            "Real Oviedo"
-        ));
-
-
-
-    public void setEquipos(){
-        for(int i=0;i<30;i++){
-            partidos.add(new Partido(equipos.get(i), equipos.get(i+1)));
-        }
+   
+    public void addPartido(String e1, String e2){
+        this.partidos.add(new Partido(e1, e2));
+    }
+    
+    public void setGoles(int i, int g1, int g2){
+        this.partidos.get(i).setGoles(g1, g2);
     }
 
-    public ArrayList<String>     getEquipos(){
+    public void reset(){
+        this.partidos=new ArrayList<>();
+    }
+
+    public int[] getEquiposLongitud(){
+        int i=0, j=0;
+        for(Partido partido : this.partidos){
+            if(i<partido.getEquiposLongitud()[0]){
+                i=partido.getEquiposLongitud()[0];
+            }
+            if(j<partido.getEquiposLongitud()[1]){
+                j=partido.getEquiposLongitud()[1];
+            }
+        }
+        return new int[]{i,j};
+    }
+
+    public ArrayList<String[]> getEquipos(){
+        ArrayList<String[]> equipos= new ArrayList<>();
+        for(Partido partido : this.partidos){
+            equipos.add(partido.getEquipos());
+        }
+        return equipos;
+    }
+
+    public ArrayList<String[]> getPartidos(){
+        ArrayList<String[]> equipos= new ArrayList<>();
+        for(Partido partido : this.partidos){
+            equipos.add(partido.getPartido());
+        }
         return equipos;
     }
 }
