@@ -18,6 +18,7 @@ public class Controlador{
     }
 
     public void iniciar(){
+        deserializar();
         int opcion;
         do{
             opcion=cV.menu();
@@ -124,23 +125,87 @@ public class Controlador{
     }
 
     public void exportarCsv() {
-
+        int j;
+        try{
+            j=cM.exportarCsv();
+        }catch(IOException e){
+            cV.imprimirError(e);
+            return;
+        }
+        if(j==1) cV.imprimirError("No hay libros");
+        if(j==2) cV.imprimir("Datos exportados correctamente al escritorio");
     }
 
     public void exportarJson() {
-
+        int j;
+        try{
+            j=cM.exportarJson();
+        }catch(IOException e){
+            cV.imprimirError(e);
+            return;
+        }
+        if(j==1) cV.imprimirError("No hay libros");
+        if(j==2) cV.imprimir("Datos exportados correctamente al escritorio");
     }
 
     public void exportarXml() {
-
+        int j;
+        try{
+            j=cM.exportarXml();
+        }catch(IOException e){
+            cV.imprimirError(e);
+            return;
+        }
+        if(j==1) cV.imprimirError("No hay libros");
+        if(j==2) cV.imprimir("Datos exportados correctamente al escritorio"); 
     }
 
     public void importarJson() {
-
+        int j;
+        try{
+            j=cM.importarJson();
+        }catch(IOException e){
+            cV.imprimirError(e);
+            return;
+        }
+        switch(j){
+            case 1:{
+                cV.imprimirError("El archivo \"libros.csv\"  no existe o no se encuentra en el escritorio");
+                break;
+            }
+            case 2:{
+                cV.imprimirError("El archivo JSON esta vacío");
+                break;
+            }
+            case 3:{
+                cV.imprimir("Datos importados correctamente");
+                break;
+            }
+        }
     }
 
     public void importarXml() {
-
+        int j;
+        try{
+            j=cM.importarXml();
+        }catch(IOException e){
+            cV.imprimirError(e);
+            return;
+        }
+        switch(j){
+            case 1:{
+                cV.imprimirError("El archivo \"libros.csv\"  no existe o no se encuentra en el escritorio");
+                break;
+            }
+            case 2:{
+                cV.imprimirError("El archivo XML esta vacío");
+                break;
+            }
+            case 3:{
+                cV.imprimir("Datos importados correctamente");
+                break;
+            }
+        }
     }
 
     public void importarCsv() {
@@ -157,7 +222,7 @@ public class Controlador{
                 break;
             }
             case 2:{
-                cV.imprimirError("El archivo esta vacío");
+                cV.imprimirError("El archivo CSV esta vacío");
                 break;
             }
             case 3:{
@@ -176,7 +241,45 @@ public class Controlador{
     }
 
     public void salir() {
+        int j=0;
+        try{
+            j=cM.serializar();
+        }catch(IOException e){
+            cV.imprimirError(e);
+        }
+        switch(j){
+            case 1:{
+                cV.imprimir("Datos guardados en el escritorio. Hasta luego!");
+                break;
+            }
+            case 0:{
+                cV.imprimirError("Error al exportar los datos");
+                break;
+            }
+        }
+    }
 
+    public void deserializar(){
+        int j=0;
+        try{
+            j=cM.deserializar();
+        }catch(IOException | ClassNotFoundException e){
+            cV.imprimirError(e);
+        }
+        switch(j){
+            case 0: {
+                cV.imprimir("Error al importar la base de datos");
+                break;
+            }
+            case 1: {
+                cV.imprimir("Base de datos importada con exito");
+                break;
+            }
+            case 2:{
+                cV.imprimirError("No existe libros.bin para importar");
+                break;
+            }
+        }
     }
 
 }

@@ -2,13 +2,26 @@ package Modelo;
 
 import es.usal.progiii.tools.Rutas;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.reflect.Type;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.charset.StandardCharsets;
+
 
 public class Modelo{
 
@@ -58,8 +71,7 @@ public class Modelo{
         if(libros==null||libros.isEmpty()){
             return 1;
         }
-        Path ruta=Paths.get("data","libros.csv");
-        Files.createDirectories(ruta.getParent());
+        Path ruta=Rutas.pathToFileOnDesktop("libros.csv");
         ArrayList<String> contenido=new ArrayList<>();
         contenido.add("Titulo,Autor,ISBN");
         for(Map.Entry<Integer, Libro> libro:libros.entrySet()){
@@ -96,7 +108,95 @@ public class Modelo{
         return 5;
     }
 
+    public int exportarJson() throws IOException{
+        if(libros==null||libros.isEmpty()){
+            return 1;
+        }
+        Path ruta=Rutas.pathToFileOnDesktop("libros.json");
+        Gson gson=new Gson();
+        String json=gson.toJson(libros);
+        Files.write(ruta, json.getBytes(StandardCharsets.UTF_8));
+        return 2;
+    }
+
+    public int importarJson() throws IOException{
+        Path ruta=Rutas.pathToFileOnDesktop("libros.json");
+        if(!Files.exists(ruta)){
+                return 1;
+        }
+        Gson gson=new Gson();
+        String json=new String(Files.readAllBytes(ruta),StandardCharsets.UTF_8);
+        Type tipoMapa;
+        HashMap<Integer, Libro> librosImportados;
+        tipoMapa=new TypeToken<HashMap<Integer,Libro>>() {}.getType();
+        librosImportados=gson.fromJson(json,tipoMapa);
+        if (librosImportados==null||librosImportados.isEmpty()){
+            return 2;
+        }
+        libros=librosImportados;
+        return 3;   
+    }
+
+    public int exportarXml() throws IOException{
+        if(libros==null||libros.isEmpty()){
+            return 1;
+        }
+        HashMap<String, Libro> aux=new HashMap<>();
+        for(Map.Entry<Integer, Libro> libro:libros.entrySet()){
+            aux.put(String.format("isbn_%d",libro.getKey()),libro.getValue());
+        }
+        XmlMapper xmlMapper=new XmlMapper();
+        Path ruta=Rutas.pathToFileOnDesktop("libros.xml");
+        String xml=xmlMapper.writeValueAsString(aux);
+        Files.write(ruta,xml.getBytes(StandardCharsets.UTF_8));
+        return 2;
+    }
+
+    public int importarXml() throws IOException{
+        Path ruta=Rutas.pathToFileOnDesktop("libros.xml");
+        if(!Files.exists(ruta)){
+                return 1;
+        }
+        XmlMapper mapper=new XmlMapper();
+        String xml=new String(Files.readAllBytes(ruta),StandardCharsets.UTF_8);
+        HashMap<String, Libro> aux=mapper.readValue(xml,mapper.getTypeFactory().constructMapType(HashMap.class,String.class,Libro.class));
+        if (aux==null||aux.isEmpty()){
+            return 2;
+        }
+        HashMap<Integer, Libro> librosImportados=new HashMap<>();
+        for (Map.Entry<String, Libro> entrada : aux.entrySet()) {
+            int isbn = Integer.parseInt(entrada.getKey().substring(5));
+            librosImportados.put(isbn, entrada.getValue());
+        }
+        libros=librosImportados;
+        return 3;
+    }
+       
+    public int serializar() throws IOException{
+        Path ruta=Rutas.pathToFileOnDesktop("libros.bin");
+        File f = ruta.toFile();
+        ObjectOutputStream oos=null;
+        oos=new ObjectOutputStream(new FileOutputStream(f));
+        oos.writeObject(libros);
+        oos.close();
+        return 1;
+    }
+
+    public int deserializar() throws IOException,ClassNotFoundException{
+        Path ruta=Rutas.pathToFileOnDesktop("libros.bin");
+        if(!Files.exists(ruta)){
+                return 2;
+        }
+        File f = ruta.toFile();
+        ObjectInputStream ois=null;
+        ois=new ObjectInputStream(new FileInputStream(f));
+        libros=(HashMap<Integer, Libro>) ois.readObject();  
+        ois.close();
+        return 1;
+    }
+
     public HashMap<Integer, Libro> getLibros(){
         return libros;
     }
+
 }

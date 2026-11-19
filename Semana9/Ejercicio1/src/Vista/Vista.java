@@ -6,7 +6,7 @@ import es.usal.progiii.tools.Esdia;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.IOException;
-
+import com.google.gson.JsonParseException;
 
 public class Vista{
 
@@ -62,6 +62,14 @@ public class Vista{
     }
 
     public void imprimirError(IOException error){
+        System.err.println("Error: "+ error);
+    }
+
+    public void imprimirError(JsonParseException error){
+        System.err.println("Error: "+ error);
+    }
+
+    public void imprimirError(Exception error){
         System.err.println("Error: "+ error);
     }
 }
