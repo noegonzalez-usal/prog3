@@ -1,31 +1,34 @@
 package paquete2;
 import paquete1.Clase1;
-import paquete1.Clase2; // no es visible, tiene por defecto package-private
+//import paquete1.Clase2; 
+// App no esta en el mismo paquete que App2, luego por package-private no puedo acceder a el
 
 public class App {
     public static void main(String[] args) throws Exception {
         Clase1 C=new Clase1();
         System.out.println(C.A);
-        System.out.println(C.B);
-        System.out.println(C.C);
-        System.out.println(C.D);
-         //no puede acceder a todo lo que no es publico
+        //System.out.println(C.B);
+        //System.out.println(C.C);
+        //System.out.println(C.D);
+
+// Solamente el atributo A es publico, los otros restringen el acceso al paquete, paquete y subclases,
+// y a la misma clase respectivamente, luego solo puedo acceder al atributo publico. 
+
         C.f1();
-        C.f2(); 
-        C.f3();
-        C.f4(); 
-        // estos 3 ultimos metodos no son accesibles y no funcionan
+        //C.f2(); 
+        //C.f3();
+        //C.f4(); 
+
+// Ocurre lo mismo que con los atributos, tienen los mismos modificadores de acceso.
     }
 
-    // el modificador public hace que se pueda acceder desde cualquier parte del proyecto
-    // el protected hace que se pueda acceder a ello desde el mismo paquete y otras subclases de la clase
-    // el private hace que solo se pueda acceder desde la misma clase
-    // sin modificador solo deja acceder desde el paquete
-
-    // Ejemplos:
-    // public se utiliza para funciones de una clase para que se puedan acceder desde el archivo principal
-    // private se utiliza para atributos de una clase
-    // protected se puede utilizar para crear metodos que se usen solo dentro de subclases
-    // sin modificador podria usarse para funciones auxiliares dentro de un paquete o clase que no se va a necesitar fuera
+// El modificador public hace que se pueda acceder desde cualquier parte del proyecto (tanto clases como atributos y
+// metodos), util para cualquier clase de la que debamos usar metodos desde el main por ejemplo.
+// El modificador private permite acceso unicamente a elementos del mismo paquete y a subclases, util para atributos y
+//  metodos que hereden las subclases.
+// El default/package-private permite acceso unicamente a elementos del mismo paquete. Util para clases auxiliares, que
+// solo se necesiten dentro del paquete.
+// El modificador private permite acceso a solamente la clase donde esta. Util para separar responsabilidades y evitar
+// cambios hechos desde fuera, restringiendo el acceso a getters y setters.
 
 }
